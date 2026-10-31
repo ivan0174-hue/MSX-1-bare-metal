@@ -4,11 +4,21 @@ Emulatore MSX1 che gira direttamente sull'hardware (nessun Linux), basato su [Ci
 
 ## Stato
 
-Fase 1 (provata su Raspberry Pi 3: avvio, tastiera, menu F12 e caricamento ROM funzionano): MSX1, ROM cartuccia, cassetta .CAS, tastiera USB, **menu F12** per caricare ROM / CAS / DSK da SD.
-Non ancora presenti: emulazione del controller floppy (le immagini .dsk si possono scegliere dal menu e vengono caricate in memoria, ma il computer non le vede ancora), MSX2, HDD. Il floppy USB reale e' stato escluso dal progetto.
+**Funziona.** Verificato dall'autore su un Raspberry Pi 3 reale (compilato in WSL con la toolchain `aarch64-linux-gnu`, BIOS MSX1 di un Philips VG-8020):
 
-**Verificato sul PC:** compilazione di tutto il core (Z80, VDP, PSG, mapper, cassetta, tastiera, macchina, menu) e un test automatico (`tests/host_test.cpp`), che include la navigazione del menu. `kernel.cpp` e' stato controllato solo contro header Circle finti (individua errori miei, non incompatibilita' con la tua versione di Circle).
-**NON verificato:** compilazione del kernel Circle (`kernel.cpp`, `main.cpp`) e avvio su Raspberry Pi 3 reale. Se qualcosa non compila, i nomi/firme delle API Circle cambiano tra versioni: incolla l'errore e correggiamo.
+- avvio del BIOS MSX1 con BASIC, schermo in HDMI, tastiera USB;
+- **menu F12** per scegliere ROM / CAS / DSK dalla SD, reset ed eject;
+- **cartucce ROM**, comprese le ROM "di sistema" che partono da 0000h (vedi sotto);
+- **cassette .CAS** con `BLOAD"CAS:",R` e `RUN"CAS:",R`, comprese le versioni da edicola con blocchi non allineati, con barra di avanzamento;
+- caricamento a velocita' doppia (F11) con programmi BASIC.
+
+**Non verificato / limiti noti**
+- F11 (velocita' doppia) con caricatori in codice macchina puo' non funzionare con alcuni BIOS: in caso di blocco usa la velocita' normale.
+- Audio (PSG, uscita HDMI o jack): implementato, non ancora confermato sull'hardware.
+- Il controller floppy non e' emulato: le immagini .dsk si possono scegliere dal menu e vengono caricate in memoria, ma il computer non le vede ancora.
+- Non presenti: MSX2, immagini HDD, joystick, SCC (suono). Il floppy USB reale e' stato escluso dal progetto.
+
+Il BIOS MSX1 (`msx1.rom`) non e' incluso: va fornito dall'utente, come le ROM e le cassette.
 
 ## Compilare
 
