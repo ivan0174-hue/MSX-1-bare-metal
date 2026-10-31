@@ -1,0 +1,11 @@
+# build output
+*.o
+*.d
+*.elf
+*.lst
+*.map
+kernel*.img
+# copyrighted material the user supplies himself
+*.rom
+*.cas
+*.dsk
